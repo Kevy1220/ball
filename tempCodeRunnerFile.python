@@ -1,0 +1,57 @@
+import sys
+import pygame
+from pygame.locals import QUIT
+from b import *
+
+SCREEN_SIZEX = 800
+SCREEN_SIZEY = 600
+SCREEN_COLOR = (0,0,0)
+BALL_SPEED = 8
+dx = BALL_SPEED
+dy = -BALL_SPEED
+paddle_x = 0
+clock = pygame.time.Clock()
+
+pygame.init()
+
+def resetGame():
+    global game_mode,dx, dy
+    game_mode = 0
+    dx = BALL_SPEED
+    dy = -BALL_SPEED
+
+window_surface = pygame.display.set_mode((SCREEN_SIZEX,SCREEN_SIZEY))
+window_surface.fill(SCREEN_COLOR)
+
+
+paddle_y = (SCREEN_SIZEY - 48)
+paddle = Paddle(window_surface, [paddle_x, paddle_y, 100, 24])
+
+ball_x = paddle_x
+ball_y = paddle_y
+ball = Ball(window_surface, [ball_x, ball_y], 8)
+
+pygame.display.update()
+pygame.event.set_grab(True) 
+pygame.mouse.set_visible(False)
+
+while True:
+    for event in pygame.event.get():
+        if event.type == QUIT:
+            pygame.quit()
+            sys.exit()
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                pygame.quit()
+                sys.exit()
+
+    window_surface.fill(SCREEN_COLOR)
+    paddle.update()
+    ball.update()
+    pygame.display.update()
+    clock.tick(60)
+
+
+
+
+
